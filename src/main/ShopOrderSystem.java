@@ -10,11 +10,11 @@ public class ShopOrderSystem {
 
     ShopOrderSystem() {
         productsList = new ArrayList<>();
-        productsList.add(new Product("Coffee", 227.5));
-        productsList.add(new Product("Tee", 222.5));
-        productsList.add(new Product("Fanta", 221.5));
-        productsList.add(new Product("Water", 221.0));
-        productsList.add(new Product("Sugar", 222.0));
+        productsList.add(new Product("Coffee", 0.5));
+        productsList.add(new Product("Tee", 0.5));
+        productsList.add(new Product("Fanta", 0.5));
+        productsList.add(new Product("Water", 0.50));
+        productsList.add(new Product("Sugar", 0.50));
     }
 
     void orderUI() {
