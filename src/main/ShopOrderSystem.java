@@ -129,7 +129,7 @@ public class ShopOrderSystem {
 
     private void tryOneMoreTime() {
         System.out.println("- - - - - ");
-        System.out.println("Try one more time.");
+        System.out.println("Try one more time please.");
     }
 
 }
