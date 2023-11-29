@@ -10,7 +10,7 @@ public class ShopOrderSystem {
 
     public ShopOrderSystem() {
         productsList = new ArrayList<>();
-        productsList.add(new Product("Coffee", 111.5));
+        productsList.add(new Product("Coffee", 103.5));
         productsList.add(new Product("Tee", 0.5));
         productsList.add(new Product("Fanta", 0.5));
         productsList.add(new Product("Water", 0.50));
