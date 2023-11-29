@@ -124,7 +124,7 @@ public class ShopOrderSystem {
 
     private void exit() {
         System.out.println("- - - - - ");
-        System.out.println("The program was closed successfully.");
+        System.out.println("The program was closed successfully. Nice.");
     }
 
     private void tryOneMoreTime() {
