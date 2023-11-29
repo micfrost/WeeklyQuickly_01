@@ -8,7 +8,7 @@ public class ShopOrderSystem {
     Scanner scanner = new Scanner(System.in);
     private ArrayList<Product> productsList;
 
-    ShopOrderSystem() {
+    public ShopOrderSystem() {
         productsList = new ArrayList<>();
         productsList.add(new Product("Coffee", 111.5));
         productsList.add(new Product("Tee", 0.5));
@@ -110,7 +110,7 @@ public class ShopOrderSystem {
         System.out.println("Total bill: " + bill + "€.");
     }
 
-    private void payTheBill() {
+    public void payTheBill() {
         double bill = calculateBill();
         System.out.println("Enter the amount of money to pay the bill");
         try {
