@@ -1,5 +1,5 @@
 package test;
-import main.ShopOrderSystem;
+import main.SystemOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
@@ -10,11 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ShopOrderSystemTest {
 
-    private ShopOrderSystem shopOrderSystem;
+    private SystemOrder shopOrderSystem;
 
     @BeforeEach
     public void setUp() {
-        shopOrderSystem = new ShopOrderSystem();
+        shopOrderSystem = new SystemOrder();
     }
 
     @Test
@@ -24,7 +24,7 @@ public class ShopOrderSystemTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
 
-        ShopOrderSystem shopOrderSystem = new ShopOrderSystem();
+        SystemOrder shopOrderSystem = new SystemOrder();
 
         assertThrows(Exception.class, () -> shopOrderSystem.payTheBill());
     }
