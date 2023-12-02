@@ -11,12 +11,10 @@ public class SystemAccess {
     SystemInventory systemInventory = new SystemInventory();
 
     void accessUI() {
-        System.out.println("- - - - - ");
-        System.out.println("Shop Order System");
         String chosenOption;
         do {
             System.out.println("- - - - - ");
-            System.out.println("Menu:");
+            System.out.println("Shop Access System");
             System.out.println("1. Access Inventory System.");
             System.out.println("2. Access Order System.");
             System.out.println("5. Exit");
@@ -26,7 +24,6 @@ public class SystemAccess {
             switch (chosenOption) {
                 case "1" -> openInventoryUI();
                 case "2" -> openOrderUI();
-
                 case "5" -> exit();
                 default -> tryOneMoreTime();
             }

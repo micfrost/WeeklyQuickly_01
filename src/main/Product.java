@@ -1,27 +1,27 @@
 package main;
 
 public class Product {
-    private String productId;
+    private String productID;
     private String productName;
     private String description;
     private double priceProducer;
     private double priceRetail;
     private int quantityInventory;
     private int quantityOrdered;
-    private String available;
     private double spaceRequired;
+    private double spaceOccupiedAllItems;
 
 
-
-
-    public Product(String productId, String productName, double priceRetail) {
-        this.productId = productId;
+    public Product(String productID, String productName, double priceRetail, int quantityInventory, double spaceRequired) {
+        this.productID = productID;
         this.productName = productName;
         this.priceRetail = priceRetail;
+        this.quantityInventory = quantityInventory;
+        this.spaceRequired = spaceRequired;
     }
 
-    public Product(String productId, String productName, double priceProducer, double priceRetail, int quantityInventory, double spaceRequired) {
-        this.productId = productId;
+    public Product(String productID, String productName, double priceProducer, double priceRetail, int quantityInventory, double spaceRequired) {
+        this.productID = productID;
         this.productName = productName;
         this.priceProducer = priceProducer;
         this.priceRetail = priceRetail;
@@ -29,12 +29,12 @@ public class Product {
         this.spaceRequired = spaceRequired;
     }
 
-    public String getProductId() {
-        return productId;
+    public String getProductID() {
+        return productID;
     }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
+    public void setProductID(String productID) {
+        this.productID = productID;
     }
 
     public String getProductName() {
@@ -73,8 +73,11 @@ public class Product {
         return quantityInventory;
     }
 
-    public void setQuantityInventory(int quantityInventory) {
-        this.quantityInventory = quantityInventory;
+    public void setQuantityInventoryAdd(int quantity) {
+        this.quantityInventory = this.quantityInventory + quantity;
+    }
+    public void setQuantityInventorySub(int quantity) {
+        this.quantityInventory = this.quantityInventory - quantity;
     }
 
     public int getQuantityOrdered() {
@@ -85,8 +88,6 @@ public class Product {
         this.quantityOrdered = quantityOrdered;
     }
 
-
-
     public double getSpaceRequired() {
         return spaceRequired;
     }
@@ -94,6 +95,15 @@ public class Product {
     public void setSpaceRequired(double spaceRequired) {
         this.spaceRequired = spaceRequired;
     }
+
+    public double getSpaceOccupiedAllItems() {
+        return spaceOccupiedAllItems;
+    }
+
+    public void setSpaceOccupiedAllItems(double addItemsSpace) {
+        this.spaceOccupiedAllItems = this.spaceOccupiedAllItems+ addItemsSpace;
+    }
+
 
     public String getAvailable() {
         if (quantityInventory > 0) {
@@ -104,7 +114,7 @@ public class Product {
     }
 
     public String displayProductOrder() {
-        return "ID "+ productId +
+        return "ID "+ productID +
                 ", " + productName +
                 ": " + String.format("%.2f", priceRetail) +
                 ", " + getAvailable() +
@@ -112,7 +122,7 @@ public class Product {
     }
 
     public String displayProductInventory() {
-        return "ID "+ productId +
+        return "ID "+ productID +
                 ", " + productName +
                 ", quantity: " + getQuantityInventory()+
                 ", Space Required for an item: " + String.format("%.2f m3", spaceRequired) +

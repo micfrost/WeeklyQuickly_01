@@ -6,16 +6,15 @@ import java.util.Scanner;
 public class SystemOrder {
 
     Scanner scanner = new Scanner(System.in);
-    SystemInventory systemInventory = new SystemInventory();
-    private ArrayList<Product> productsList = systemInventory.getProductsList();
+    //    SystemInventory systemInventory = new SystemInventory();
+    ArrayList<Product> productsList = SystemInventory.productsList;
+
 
     void orderUI() {
-        System.out.println("- - - - - ");
-        System.out.println("Shop Order System");
         String chosenOption;
         do {
             System.out.println("- - - - - ");
-            System.out.println("Menu:");
+            System.out.println("Shop Order System");
             System.out.println("1. View the products.");
             System.out.println("2. Add to a cart.");
             System.out.println("3. Display the cart.");
@@ -47,28 +46,34 @@ public class SystemOrder {
 
     private void addToCart() {
         System.out.println("- - - - - ");
-        boolean isInMenu = false;
+        boolean isInInventory = false;
         System.out.println("Enter an ID number of a product you want to add to a card.");
-        String inputID = scanner.nextLine();
+        String productID = scanner.nextLine();
 
         for (Product product : productsList
         ) {
-            if (product.getProductId().equals(inputID)) {
-                isInMenu = true;
+            if (product.getProductID().equals(productID)) {
+                isInInventory = true;
                 break;
             }
         }
 
         try {
-            if (isInMenu) {
+            if (isInInventory) {
 
                 System.out.println("How many items would you like to order?");
                 try {
                     int orderQuantity = Integer.parseInt(scanner.nextLine());
                     for (Product product : productsList
                     ) {
-                        if (product.getProductId().equals(inputID)) {
-                            product.setQuantityOrdered(orderQuantity);
+                        if (product.getProductID().equals(productID)) {
+                            if (product.getQuantityInventory() > orderQuantity) {
+                                product.setQuantityOrdered(orderQuantity);
+                                product.setQuantityInventorySub(product.getQuantityOrdered());
+                                System.out.println("Items ordered successfully.");
+                            } else {
+                                System.out.println("There is not enough items in Stock. Please make the order one more time.");
+                            }
                         }
                     }
                 } catch (NumberFormatException e) {
@@ -111,7 +116,7 @@ public class SystemOrder {
         System.out.println("Enter the amount of money to pay the bill");
         try {
             double mooneyToPayTheBill = Double.parseDouble(scanner.nextLine());
-            System.out.println("Given: \t" + mooneyToPayTheBill + "€" + "\nBill: \t" + bill + "€"+ "\n- - - - -" + "\nRest: \t" + (mooneyToPayTheBill - bill)+ "€");
+            System.out.println("Given: \t" + mooneyToPayTheBill + "€" + "\nBill: \t" + bill + "€" + "\n- - - - -" + "\nRest: \t" + (mooneyToPayTheBill - bill) + "€");
             System.out.println("Thank you for your purchase. Have a nice day.");
 
         } catch (NumberFormatException e) {
