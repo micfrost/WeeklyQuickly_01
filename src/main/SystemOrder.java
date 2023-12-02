@@ -6,7 +6,6 @@ import java.util.Scanner;
 public class SystemOrder {
 
     Scanner scanner = new Scanner(System.in);
-    //    SystemInventory systemInventory = new SystemInventory();
     ArrayList<Product> productsList = SystemInventory.productsList;
 
 
@@ -14,7 +13,7 @@ public class SystemOrder {
         String chosenOption;
         do {
             System.out.println("- - - - - ");
-            System.out.println("Shop Order System");
+            System.out.println("Shop Order System.");
             System.out.println("1. View the products.");
             System.out.println("2. Add to a cart.");
             System.out.println("3. Display the cart.");
