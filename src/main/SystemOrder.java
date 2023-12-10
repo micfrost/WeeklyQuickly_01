@@ -6,15 +6,15 @@ import java.util.Scanner;
 public class SystemOrder {
 
     Scanner scanner = new Scanner(System.in);
-    ArrayList<Product> productsList = SystemInventory.productsList;
-
+    ArrayList<Product> productsList = SystemInventory.getProductsList();
+    ArrayList<Item> itemsList = SystemInventory.getItemsList();
 
     void orderUI() {
         String chosenOption;
         do {
             System.out.println("- - - - - ");
             System.out.println("Shop Order System.");
-            System.out.println("1. View the products.");
+            System.out.println("1. View all products in Offer.");
             System.out.println("2. Add to a cart.");
             System.out.println("3. Display the cart.");
             System.out.println("4. Pay the bill.");
@@ -23,7 +23,7 @@ public class SystemOrder {
             System.out.print("Enter selected option: ");
             chosenOption = scanner.nextLine();
             switch (chosenOption) {
-                case "1" -> viewProductsOrder();
+                case "1" -> viewProductsInOffer();
                 case "2" -> addToCart();
                 case "3" -> displayCart();
                 case "4" -> payTheBill();
@@ -33,12 +33,19 @@ public class SystemOrder {
         } while (!chosenOption.equals("5"));
     }
 
-    private void viewProductsOrder() {
+    private void viewProductsInOffer() {
         System.out.println("- - - - - ");
-        System.out.println("Products ready to order");
-        for (Product product : productsList
-        ) {
-            System.out.printf(product.displayProductOrder());
+        System.out.println("Products in offer");
+
+
+        for (Product product : productsList) {
+            product.setProductQuantityInventory(0);
+            for (Item item : itemsList) {
+                if (item.getProduct() == product) {
+                    product.setProductQuantityInventoryAdd(item.getItemQuantity());
+                }
+            }
+            System.out.printf(product.displayProductInOffer());
         }
         System.out.println();
     }
@@ -47,11 +54,11 @@ public class SystemOrder {
         System.out.println("- - - - - ");
         boolean isInInventory = false;
         System.out.println("Enter an ID number of a product you want to add to a card.");
-        String productID = scanner.nextLine();
+        int productID = Integer.parseInt(scanner.nextLine());
 
         for (Product product : productsList
         ) {
-            if (product.getProductID().equals(productID)) {
+            if (product.getProductID() == productID) {
                 isInInventory = true;
                 break;
             }
@@ -65,10 +72,23 @@ public class SystemOrder {
                     int orderQuantity = Integer.parseInt(scanner.nextLine());
                     for (Product product : productsList
                     ) {
-                        if (product.getProductID().equals(productID)) {
-                            if (product.getQuantityInventory() > orderQuantity) {
-                                product.setQuantityOrdered(orderQuantity);
-                                product.setQuantityInventorySub(product.getQuantityOrdered());
+                        if (product.getProductID() == productID) {
+                            if (product.getProductQuantityInventory() > orderQuantity) {
+
+                                product.setProductQuantityOrdered(orderQuantity);
+
+                                for (Item item : itemsList) {
+                                    if (item.getProduct() == product) {
+                                        if (item.getItemQuantity() > orderQuantity) {
+                                            item.setItemQuantity(item.getItemQuantity() - orderQuantity);
+                                        } else {
+                                            int partOrderQuantity = item.getItemQuantity();
+                                            item.setItemQuantity(0);
+                                            orderQuantity = orderQuantity - partOrderQuantity;
+                                        }
+                                    }
+                                }
+
                                 System.out.println("Items ordered successfully.");
                             } else {
                                 System.out.println("There is not enough items in Stock. Please make the order one more time.");
@@ -92,7 +112,7 @@ public class SystemOrder {
         System.out.println();
         double bill = 0;
         for (Product product : productsList) {
-            bill = bill + product.getPriceRetail() * product.getQuantityOrdered();
+            bill = bill + product.getPriceRetail() * product.getProductQuantityOrdered();
         }
         return bill;
     }
@@ -101,10 +121,10 @@ public class SystemOrder {
         double bill = calculateBill();
         System.out.println("- - - - - ");
         for (Product product : productsList) {
-            if (product.getQuantityOrdered() != 0) {
+            if (product.getProductQuantityOrdered() != 0) {
                 System.out.print(product.getProductName() + " ");
                 System.out.print(product.getPriceRetail() + "€");
-                System.out.println(", Ordered: " + product.getQuantityOrdered() + " item(s).");
+                System.out.println(", Ordered: " + product.getProductQuantityOrdered() + " item(s).");
             }
         }
         System.out.println("Total bill: " + bill + "€.");

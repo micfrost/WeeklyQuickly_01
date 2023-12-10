@@ -31,7 +31,7 @@ public class Storage {
         return storageSpaceOccupied;
     }
 
-    public void setStorageSpaceOccupied(double AddItemsSpace) {
+    public void setStorageSpaceOccupiedAdditionalItems(double AddItemsSpace) {
         this.storageSpaceOccupied = this.storageSpaceOccupied + AddItemsSpace;
     }
 

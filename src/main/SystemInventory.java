@@ -8,19 +8,23 @@ public class SystemInventory {
     Scanner scanner = new Scanner(System.in);
 
     private Storage storage1;
-    static ArrayList<Product> productsList = new ArrayList<>();;
-
+    private static ArrayList<Product> productsList = new ArrayList<>();
+    private static ArrayList<Item> itemsList = new ArrayList<>();
 
     public SystemInventory() {
 
         storage1 = new Storage("Storage001", "StorageWQ1", 10,"Leipzig");
 
-        productsList.add(new Product("001", "Coffee", 3.5, 0,  0.1));
-        productsList.add(new Product("002", "Icetea", 2.5,0,  0.1));
+        productsList.add(new Product(1, "Coffee", 3.5,  0.1));
+        productsList.add(new Product(2, "Icetea", 2.5,  0.1));
     }
 
-    public ArrayList<Product> getProductsList() {
+    public static ArrayList<Product> getProductsList() {
         return productsList;
+    }
+
+    public static ArrayList<Item> getItemsList() {
+        return itemsList;
     }
 
     void inventoryUI() {
@@ -51,57 +55,75 @@ public class SystemInventory {
     private void viewProductsInventory() {
         System.out.println("- - - - - ");
         System.out.println("Products in the Inventory:");
-        for (Product product : productsList
-        ) {
+        for (Product product : productsList) {
+            product.setProductQuantityInventory(0);
+            for (Item item : itemsList) {
+                if (item.getProduct() == product) {
+                    product.setProductQuantityInventoryAdd(item.getItemQuantity());
+                }
+            }
             System.out.printf(product.displayProductInventory());
         }
         System.out.println();
     }
 
     private void addNewProductsInventory() {
-        System.out.println("Enter a Product ID:");
-        String productID = scanner.nextLine();
+
+        int productID = productsList.size()+1;
         System.out.println("Enter a Product Name: ");
         String productName = scanner.nextLine();
         System.out.println("Enter a Price Retail: ");
         double priceRetail = Double.parseDouble(scanner.nextLine());
         System.out.println("Enter a Space Required to store a Product: ");
         double spaceRequired = Double.parseDouble(scanner.nextLine());
-        productsList.add(new Product(productID, productName, priceRetail, 0,spaceRequired));
+        productsList.add(new Product(productID, productName, priceRetail,spaceRequired));
         System.out.println("Product added successfully.");
     }
 
     private void addItemsExistingProduct() {
         System.out.println("- - - - - ");
-        boolean isInInventory = false;
-        System.out.println("Enter an Product ID you want to add to the Inventory.");
-        String productID = scanner.nextLine();
 
+        System.out.println("Enter an Product ID you want to add to the Inventory.");
+        int productID = Integer.parseInt(scanner.nextLine());
+        int itemID = itemsList.size()+1;
+        System.out.println("How many items do you want to add to the Inventory?");
+        int itemQuantity = Integer.parseInt(scanner.nextLine());
+
+        System.out.println("Enter an expiryDate?");
+        String expiryDate = scanner.nextLine();
+        boolean isValid = true;
+
+
+
+
+        boolean isProductAlreadyInInventory = false;
         for (Product product : productsList
         ) {
-            if (product.getProductID().equals(productID)) {
-                isInInventory = true;
+            if (product.getProductID() == productID) {
+                isProductAlreadyInInventory = true;
                 break;
             }
         }
+
         try {
-            if (isInInventory) {
-                System.out.println("How many items do you want to add to the Inventory?");
+            if (isProductAlreadyInInventory) {
+
                 try {
-                    int AdditionalItemsQuantity = Integer.parseInt(scanner.nextLine());
-
-
+                    int AdditionalItemsQuantity = itemQuantity;
                     for (Product product : productsList
                     ) {
-                        if (product.getProductID().equals(productID)) {
+                        if (product.getProductID() == productID) {
 
                             boolean isEnoughStorageSpace = storage1.getStorageSpaceAvailable() -
-                                    product.getSpaceRequired() * AdditionalItemsQuantity >= 0;
+                                    product.getSpaceRequiredOneItem() * AdditionalItemsQuantity >= 0;
 
                             if(isEnoughStorageSpace){
-                                product.setSpaceOccupiedAllItems(product.getSpaceRequired() * AdditionalItemsQuantity);
-                                storage1.setStorageSpaceOccupied(product.getSpaceRequired() * AdditionalItemsQuantity);
-                                product.setQuantityInventoryAdd(AdditionalItemsQuantity);
+                                product.setSpaceOccupiedAdditionalItems(product.getSpaceRequiredOneItem() * AdditionalItemsQuantity);
+                                storage1.setStorageSpaceOccupiedAdditionalItems(product.getSpaceRequiredOneItem() * AdditionalItemsQuantity);
+
+                                itemsList.add(new Item(product,itemID,itemQuantity,isValid,expiryDate));
+//                                product.setQuantityInventoryAdd(AdditionalItemsQuantity);
+
                                 System.out.println("Items added successfully.");
                             }
 
@@ -118,7 +140,11 @@ public class SystemInventory {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
+
     }
+
+
 
     private void displayStorageInfo() {
         System.out.println(storage1.displayStorage());
